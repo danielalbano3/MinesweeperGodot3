@@ -1,0 +1,9 @@
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\bin\Debug\Minesweeper G3CS.dll
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\bin\Debug\Minesweeper G3CS.pdb
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\obj\Debug\Minesweeper G3CS.csproj.AssemblyReference.cache
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\obj\Debug\Minesweeper G3CS.GeneratedMSBuildEditorConfig.editorconfig
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\obj\Debug\Minesweeper G3CS.AssemblyInfoInputs.cache
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\obj\Debug\Minesweeper G3CS.AssemblyInfo.cs
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\obj\Debug\Minesweeper G3CS.csproj.CoreCompileInputs.cache
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\obj\Debug\Minesweeper G3CS.dll
+C:\Godot3CS\Projects\Minesweeper\MinesweeperGodot3\Source\.mono\temp\obj\Debug\Minesweeper G3CS.pdb
