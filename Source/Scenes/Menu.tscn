@@ -1,12 +1,74 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
+[ext_resource path="res://mainfont.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/Fonts/MouldyCheeseRegular-WyMWG.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 70
+outline_size = 5
+outline_color = Color( 0.803922, 0, 0, 1 )
+font_data = ExtResource( 3 )
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 2 )
 script = ExtResource( 1 )
 
-[node name="Header" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TitleBox" type="VBoxContainer" parent="."]
+margin_left = 288.0
+margin_top = 64.0
+margin_right = 727.0
+margin_bottom = 163.0
+
+[node name="Title" type="Label" parent="TitleBox"]
+margin_right = 439.0
+margin_bottom = 71.0
+custom_fonts/font = SubResource( 1 )
+text = "Minesweeper"
+align = 1
+
+[node name="Label" type="Label" parent="TitleBox"]
+margin_top = 75.0
+margin_right = 439.0
+margin_bottom = 99.0
+text = "3Daniel Games"
+align = 1
+
+[node name="ButtonsBox" type="VBoxContainer" parent="."]
+margin_left = 352.0
+margin_top = 288.0
+margin_right = 652.0
+margin_bottom = 488.0
+custom_constants/separation = 20
+
+[node name="PlayBtn" type="Button" parent="ButtonsBox"]
+margin_right = 300.0
+margin_bottom = 53.0
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+text = "Play"
+
+[node name="SettingsBtn" type="Button" parent="ButtonsBox"]
+margin_top = 73.0
+margin_right = 300.0
+margin_bottom = 126.0
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+text = "Settings"
+
+[node name="CreditsBtn" type="Button" parent="ButtonsBox"]
+margin_top = 146.0
+margin_right = 300.0
+margin_bottom = 200.0
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+text = "Credits"
