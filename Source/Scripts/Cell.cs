@@ -6,47 +6,66 @@ public class Cell : TextureButton
 {
     public bool hasMine;
     public bool hasFlag;
-    public bool isOpen;
+    public bool hidden;
+
     public int mineCount;
-    public Vector2 rowcol;
+    public int row;
+    public int col;
 
     private Texture texture;
     private AtlasTexture img;
+    private AnimatedSprite Boom;
+    private AudioStreamPlayer Sfx;
+    private AudioStreamPlayer Flagsfx;
 
     [Signal] public delegate void GameOverSignal();
-    [Signal] public delegate void OpenSpaceSignal(Vector2 pos);
+    [Signal] public delegate void OpenSpaceSignal(Cell cell);
+    [Signal] public delegate void UpdateSignal();
 
     public override void _Ready()
     {
-        texture = ResourceLoader.Load<Texture>("res://Assets/Art/mstiles.png");
+        Boom = GetNode<AnimatedSprite>("Boom");
+        Sfx = GetNode<AudioStreamPlayer>("Sfx");
+        Flagsfx = GetNode<AudioStreamPlayer>("Flagsfx");
+        texture = ResourceLoader.Load<Texture>("res://Assets/Art/50x50.png");
         img = new AtlasTexture();
         img.Atlas = texture;
 
         SetImage("Cell");
         hasMine = false;
         hasFlag = false;
-        isOpen = false;
-        mineCount = 5;
-        rowcol = new Vector2(0,0);
+        hidden = true;
+        mineCount = 0;
+        row = 0;
+        col = 0;
 
+        Boom.Visible = false;
         Connect("pressed", this, "OnClick");
+    }
+
+    public void OnClick()
+    {
+        if (!hasFlag && hidden)
+        {
+            hidden = false;
+            OpenCell();
+        }
     }
 
     public override void _Input(InputEvent @event)
     {
-        base._Input(@event);
-        if (@event is InputEventMouseButton mouseBtn)
+        if (Input.IsActionJustPressed("flag"))
         {
-            if (mouseBtn.ButtonIndex == (int)ButtonList.Right && mouseBtn.Pressed)
+            if (IsHovered() && !Disabled)
             {
                 FlagToggle();
             }
         }
-    }
+    }   
 
     private void FlagToggle()
     {
-        if (!isOpen)
+        if (hidden)
         {
             if (hasFlag)
             {
@@ -55,105 +74,89 @@ public class Cell : TextureButton
             else
             {
                 SetImage("flag");
+                Flagsfx.Play();
             }
             hasFlag = !hasFlag;
         }
     }
 
-    private void Reveal()
+    public void OpenCell()
     {
-        if (hasMine && !isOpen)
+        Boom.Visible = true;
+        Boom.Play();
+        Sfx.Play();
+
+        if (hasMine)
         {
-            if (hasFlag)
-            {
-                SetImage("wrongflag");
-            }
-            else
-            {
-                SetImage("mine");
-            }
+            SetImage("explode");
+            EmitSignal("GameOverSignal");
         }
+        else
+        {
+            SetImage(mineCount);
+            if (mineCount == 0)
+            {
+                EmitSignal("OpenSpaceSignal", this);
+            }
+            
+        }
+        EmitSignal("UpdateSignal");
     }
 
-    private void OpenCell()
-    {
-        if (!isOpen)
-        {
-            if (hasMine)
-            {
-                SetImage("explode");
-                EmitSignal("GameOverSignal");
-            }
-            else
-            {
-                SetImage(mineCount);
-                if (mineCount == 0)
-                {
-                    EmitSignal("OpenSpaceSignal", rowcol);
-                }
-            }
-            isOpen = true;
-        }
-    }
-
-    private void SetImage(object imageName)
+    public void SetImage(object imageName)
     {
         //0-8, wrongflag, cell, mine, explode, flag
         string input = imageName.ToString().ToUpper();
-        
+        float sidesize = 50f;
+
         switch(input)
         {
             case "1":
-                img.Region = new Rect2(0f,0f,100f,100f);
+                img.Region = new Rect2(0f,0f,sidesize,sidesize);
                 break;
             case "2":
-                img.Region = new Rect2(100f,0f,100f,100f);
+                img.Region = new Rect2(sidesize,0f,sidesize,sidesize);
                 break;
             case "3":
-                img.Region = new Rect2(200f,0f,100f,100f);
+                img.Region = new Rect2(2f * sidesize,0f,sidesize,sidesize);
                 break;
             case "4":
-                img.Region = new Rect2(300f,0f,100f,100f);
+                img.Region = new Rect2(3f * sidesize,0f,sidesize,sidesize);
                 break;
             case "5":
-                img.Region = new Rect2(400f,0f,100f,100f);
+                img.Region = new Rect2(4f * sidesize,0f,sidesize,sidesize);
                 break;
             case "6":
-                img.Region = new Rect2(0f,100f,100f,100f);
+                img.Region = new Rect2(0f,sidesize,sidesize,sidesize);
                 break;
             case "7":
-                img.Region = new Rect2(100f,100f,100f,100f);
+                img.Region = new Rect2(sidesize,sidesize,sidesize,sidesize);
                 break;
             case "8":
-                img.Region = new Rect2(200f,100f,100f,100f);
+                img.Region = new Rect2(2f * sidesize,sidesize,sidesize,sidesize);
                 break;
             case "0":
-                img.Region = new Rect2(300f,100f,100f,100f);
+                img.Region = new Rect2(3f * sidesize,sidesize,sidesize,sidesize);
                 break;
             case "WRONGFLAG":
-                img.Region = new Rect2(400f,100f,100f,100f);
+                img.Region = new Rect2(4f * sidesize,sidesize,sidesize,sidesize);
                 break;
             case "CELL":
-                img.Region = new Rect2(0f,200f,100f,100f);
+                img.Region = new Rect2(0f,2f * sidesize,sidesize,sidesize);
                 break;
             case "MINE":
-                img.Region = new Rect2(100f,200f,100f,100f);
+                img.Region = new Rect2(sidesize,2f * sidesize,sidesize,sidesize);
                 break;
             case "EXPLODE":
-                img.Region = new Rect2(200f,200f,100f,100f);
+                img.Region = new Rect2(2f * sidesize,2f * sidesize,sidesize,sidesize);
                 break;
             case "FLAG":
-                img.Region = new Rect2(300f,200f,100f,100f);
+                img.Region = new Rect2(3f * sidesize,2f * sidesize,sidesize,sidesize);
+                break;
+            case "WIN":
+                img.Region = new Rect2(4f * sidesize,2f * sidesize,sidesize,sidesize);
                 break;
         }
         TextureNormal = img;
-    }
-
-    public void OnClick()
-    {
-        if (!hasFlag)
-        {
-            OpenCell();
-        }
     }
 }

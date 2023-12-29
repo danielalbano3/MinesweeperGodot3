@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
 [ext_resource path="res://mainfont.tres" type="Theme" id=2]
 [ext_resource path="res://Assets/Fonts/MouldyCheeseRegular-WyMWG.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Scenes/Level.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/DifficultySettings.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 70
@@ -20,55 +22,69 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="TitleBox" type="VBoxContainer" parent="."]
-margin_left = 288.0
+[node name="TitleBox" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
 margin_top = 64.0
-margin_right = 727.0
 margin_bottom = 163.0
 
-[node name="Title" type="Label" parent="TitleBox"]
-margin_right = 439.0
+[node name="Title" type="Label" parent="Panel/TitleBox"]
+margin_right = 1024.0
 margin_bottom = 71.0
 custom_fonts/font = SubResource( 1 )
 text = "Minesweeper"
 align = 1
 
-[node name="Label" type="Label" parent="TitleBox"]
+[node name="Label" type="Label" parent="Panel/TitleBox"]
 margin_top = 75.0
-margin_right = 439.0
+margin_right = 1024.0
 margin_bottom = 99.0
 text = "3Daniel Games"
 align = 1
 
-[node name="ButtonsBox" type="VBoxContainer" parent="."]
-margin_left = 352.0
-margin_top = 288.0
-margin_right = 652.0
-margin_bottom = 488.0
-custom_constants/separation = 20
+[node name="ButtonsBox" type="VBoxContainer" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -108.0
+margin_right = 140.0
+margin_bottom = 192.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_constants/separation = 10
+alignment = 1
 
-[node name="PlayBtn" type="Button" parent="ButtonsBox"]
+[node name="PlayBtn" type="Button" parent="Panel/ButtonsBox"]
 margin_right = 300.0
-margin_bottom = 53.0
+margin_bottom = 93.0
 mouse_default_cursor_shape = 2
+size_flags_horizontal = 5
 size_flags_vertical = 3
 shortcut_in_tooltip = false
 text = "Play"
 
-[node name="SettingsBtn" type="Button" parent="ButtonsBox"]
-margin_top = 73.0
+[node name="SettingsBtn" type="Button" parent="Panel/ButtonsBox"]
+margin_top = 103.0
 margin_right = 300.0
-margin_bottom = 126.0
+margin_bottom = 196.0
 mouse_default_cursor_shape = 2
+size_flags_horizontal = 5
 size_flags_vertical = 3
 shortcut_in_tooltip = false
 text = "Settings"
 
-[node name="CreditsBtn" type="Button" parent="ButtonsBox"]
-margin_top = 146.0
+[node name="CreditsBtn" type="Button" parent="Panel/ButtonsBox"]
+margin_top = 206.0
 margin_right = 300.0
-margin_bottom = 200.0
+margin_bottom = 300.0
 mouse_default_cursor_shape = 2
+size_flags_horizontal = 5
 size_flags_vertical = 3
 shortcut_in_tooltip = false
 text = "Credits"
+
+[node name="Level" parent="." instance=ExtResource( 4 )]
+
+[node name="DifficultySettings" parent="." instance=ExtResource( 5 )]
+visible = false

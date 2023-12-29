@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Board.cs" type="Script" id=1]
+
+[node name="Board" type="GridContainer"]
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+script = ExtResource( 1 )
