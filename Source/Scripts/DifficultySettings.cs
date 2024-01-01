@@ -3,8 +3,6 @@ using System;
 
 public class DifficultySettings : Control
 {
-    private int RowChoice;
-    private int ColChoice;
 
     private Label ChoiceLabel;
     private Button EasyBtn;
@@ -12,39 +10,33 @@ public class DifficultySettings : Control
     private Button HardBtn;
     private Button NuclearBtn;
 
-    private Button PlayBtn;
-    private Button BackToMainBtn;
+    private Button BackBtn;
 
-    private Panel PresetPanel;
+    private TextureRect TRect;
+    private Label TextLabel;
 
-    
     [Signal] public delegate void BackToMainSignal();
-    [Signal] public delegate void PlaySignal();
     [Signal] public delegate void SettingsSignal(int h, int w, float r);
 
     public override void _Ready()
     {
-        RowChoice = 5;
-        ColChoice = 5;
+        TRect = GetNode<TextureRect>("TRect");
+        TextLabel = GetNode<Label>("TextLabel");
 
         ChoiceLabel = GetNode<Label>("PresetPanel/ChoiceLabel");
-        PresetPanel = GetNode<Panel>("PresetPanel");
         EasyBtn = GetNode<Button>("PresetPanel/VBoxContainer/DifficultyBox/Easy");
         NormalBtn = GetNode<Button>("PresetPanel/VBoxContainer/DifficultyBox/Normal");
         HardBtn = GetNode<Button>("PresetPanel/VBoxContainer/DifficultyBox/Hard");
         NuclearBtn = GetNode<Button>("PresetPanel/VBoxContainer/DifficultyBox/Nuclear");
+        BackBtn = GetNode<Button>("PresetPanel/OptionsBtns/BackBtn");
         
-        PlayBtn = GetNode<Button>("PresetPanel/OptionsBtns/PlayBtn");
-        BackToMainBtn = GetNode<Button>("PresetPanel/OptionsBtns/BackToMainBtn");
-
-        BackToMainBtn.Connect("pressed", this, "GoBackToMain");
-        PlayBtn.Connect("pressed", this, "GoPlay");
-
         EasyBtn.Connect("pressed", this, "UpdateLabel", new Godot.Collections.Array {"Easy"});
         NormalBtn.Connect("pressed", this, "UpdateLabel", new Godot.Collections.Array {"Normal"});
         HardBtn.Connect("pressed", this, "UpdateLabel", new Godot.Collections.Array {"Hard"});
         NuclearBtn.Connect("pressed", this, "UpdateLabel", new Godot.Collections.Array {"Nuclear"});
 
+        BackBtn.Connect("pressed", this, "GoBackToMain");
+        TRect.Hide();
     }
 
     private void UpdateTweaks(int height, int width, float mRatio)
@@ -54,36 +46,59 @@ public class DifficultySettings : Control
 
     private void UpdateLabel(string choice)
     {
+        TRect.Show();
         ChoiceLabel.Text = choice;
 
         switch (choice)
         {
             case "Easy":
-                UpdateTweaks(5,3,0.2f);
+                UpdateTweaks(5,5,0.2f);
+                UpdateRect(choice);
                 break;
             case "Normal":
-                UpdateTweaks(5,5,0.2f);
+                UpdateTweaks(7,7,0.2f);
+                UpdateRect(choice);
                 break;
             case "Hard":
-                UpdateTweaks(10,10,0.25f);
+                UpdateTweaks(8,8,0.25f);
+                UpdateRect(choice);
                 break;
             case "Nuclear":
-                UpdateTweaks(10,20,0.3f);
+                UpdateTweaks(10,10,0.4f);
+                UpdateRect(choice);
                 break;
         }
     }
 
-    private void GoPlay()
+    private void UpdateRect(string choice)
     {
-        EmitSignal("PlaySignal");
+        if (TRect.Texture is AtlasTexture img)
+        {
+            switch (choice)
+            {
+                case "Easy":
+                    img.Region = new Rect2(0,0,128,128);
+                    TextLabel.Text = "You want a quick and easy win?\nPick this!";
+                    break;
+                case "Normal":
+                    img.Region = new Rect2(128,0,128,128);
+                    TextLabel.Text = "Looking for a nice and casual game?\nTry this one!";
+                    break;
+                case "Hard":
+                    img.Region = new Rect2(256,0,128,128);
+                    TextLabel.Text = "Oh, someone's feeling brave today!\nSure you don't wanna try the easy mode?";
+                    break;
+                case "Nuclear":
+                    img.Region = new Rect2(384,0,128,128);
+                    TextLabel.Text = "Wait! What are you doing?!\nYou can't beat this!";
+                    break;
+            }
+        }
+
     }
 
     private void GoBackToMain()
     {
         EmitSignal("BackToMainSignal");
-    }
-
-
-
-    
+    }   
 }

@@ -1,16 +1,53 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
-[ext_resource path="res://mainfont.tres" type="Theme" id=2]
+[ext_resource path="res://Themes/mainfont.tres" type="Theme" id=2]
 [ext_resource path="res://Assets/Fonts/MouldyCheeseRegular-WyMWG.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scenes/Level.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/DifficultySettings.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Art/pickaxe_cursor.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Art/mine.png" type="Texture" id=7]
+[ext_resource path="res://Themes/hover_button.tres" type="StyleBox" id=8]
+[ext_resource path="res://Themes/normal_button.tres" type="StyleBox" id=9]
+[ext_resource path="res://Themes/pressed_button.tres" type="StyleBox" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 70
 outline_size = 5
 outline_color = Color( 0.803922, 0, 0, 1 )
 font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.164706, 0.517647, 0.207843, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.164706, 0.517647, 0.207843, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -22,6 +59,32 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+margin_left = 128.0
+margin_top = 352.0
+margin_right = 384.0
+margin_bottom = 608.0
+rect_rotation = -78.6
+texture = ExtResource( 6 )
+
+[node name="TextureRect2" type="TextureRect" parent="Panel"]
+margin_left = 576.0
+margin_top = 384.0
+margin_right = 832.0
+margin_bottom = 640.0
+rect_rotation = -78.6
+texture = ExtResource( 7 )
+stretch_mode = 5
+
+[node name="TextureRect3" type="TextureRect" parent="Panel"]
+margin_left = 256.0
+margin_top = 640.0
+margin_right = 512.0
+margin_bottom = 896.0
+rect_rotation = -111.7
+texture = ExtResource( 7 )
+stretch_mode = 5
+
 [node name="TitleBox" type="VBoxContainer" parent="Panel"]
 anchor_right = 1.0
 margin_top = 64.0
@@ -31,7 +94,7 @@ margin_bottom = 163.0
 margin_right = 1024.0
 margin_bottom = 71.0
 custom_fonts/font = SubResource( 1 )
-text = "Minesweeper"
+text = "Minescrapper"
 align = 1
 
 [node name="Label" type="Label" parent="Panel/TitleBox"]
@@ -58,33 +121,88 @@ alignment = 1
 [node name="PlayBtn" type="Button" parent="Panel/ButtonsBox"]
 margin_right = 300.0
 margin_bottom = 93.0
-mouse_default_cursor_shape = 2
 size_flags_horizontal = 5
 size_flags_vertical = 3
+custom_colors/font_color_hover = Color( 1, 1, 0, 1 )
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 10 )
+custom_styles/normal = ExtResource( 9 )
 shortcut_in_tooltip = false
 text = "Play"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="SettingsBtn" type="Button" parent="Panel/ButtonsBox"]
 margin_top = 103.0
 margin_right = 300.0
 margin_bottom = 196.0
-mouse_default_cursor_shape = 2
 size_flags_horizontal = 5
 size_flags_vertical = 3
+custom_colors/font_color_hover = Color( 1, 1, 0, 1 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = ExtResource( 10 )
+custom_styles/normal = ExtResource( 9 )
 shortcut_in_tooltip = false
 text = "Settings"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="CreditsBtn" type="Button" parent="Panel/ButtonsBox"]
 margin_top = 206.0
 margin_right = 300.0
 margin_bottom = 300.0
-mouse_default_cursor_shape = 2
 size_flags_horizontal = 5
 size_flags_vertical = 3
+custom_colors/font_color_hover = Color( 1, 1, 0, 1 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = ExtResource( 10 )
+custom_styles/normal = ExtResource( 9 )
 shortcut_in_tooltip = false
 text = "Credits"
 
+[node name="CreditsLabel" type="Label" parent="."]
+visible = false
+margin_left = 192.0
+margin_top = 192.0
+margin_right = 829.0
+margin_bottom = 513.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0.839216, 0.92549, 0.0431373, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/line_spacing = 6
+custom_constants/shadow_offset_y = 2
+text = "Minesweeper Clone
+
+Programmer
+Daniel Albano III
+
+Game Engine
+Godot 3.5
+written in C#
+
+Music
+https://opengameart.org/content/lost-in-the-meadows
+"
+align = 1
+
+[node name="EscapeCredits" type="Button" parent="."]
+visible = false
+margin_left = 416.0
+margin_top = 544.0
+margin_right = 616.0
+margin_bottom = 578.0
+rect_min_size = Vector2( 200, 0 )
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 10 )
+custom_styles/normal = ExtResource( 9 )
+shortcut_in_tooltip = false
+text = "Back"
+
 [node name="Level" parent="." instance=ExtResource( 4 )]
+visible = false
 
 [node name="DifficultySettings" parent="." instance=ExtResource( 5 )]
 visible = false

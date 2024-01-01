@@ -21,6 +21,7 @@ public class Cell : TextureButton
     [Signal] public delegate void GameOverSignal();
     [Signal] public delegate void OpenSpaceSignal(Cell cell);
     [Signal] public delegate void UpdateSignal();
+    [Signal] public delegate void FlagSignal(bool flagdelta);
 
     public override void _Ready()
     {
@@ -41,6 +42,13 @@ public class Cell : TextureButton
 
         Boom.Visible = false;
         Connect("pressed", this, "OnClick");
+    }
+
+    public void ResetCell()
+    {
+        SetImage("Cell");
+        hasFlag = false;
+        hidden = true;
     }
 
     public void OnClick()
@@ -70,11 +78,13 @@ public class Cell : TextureButton
             if (hasFlag)
             {
                 SetImage("cell");
+                EmitSignal("FlagSignal", false);
             }
             else
             {
                 SetImage("flag");
                 Flagsfx.Play();
+                EmitSignal("FlagSignal", true);
             }
             hasFlag = !hasFlag;
         }
@@ -98,14 +108,12 @@ public class Cell : TextureButton
             {
                 EmitSignal("OpenSpaceSignal", this);
             }
-            
         }
         EmitSignal("UpdateSignal");
     }
 
     public void SetImage(object imageName)
     {
-        //0-8, wrongflag, cell, mine, explode, flag
         string input = imageName.ToString().ToUpper();
         float sidesize = 50f;
 

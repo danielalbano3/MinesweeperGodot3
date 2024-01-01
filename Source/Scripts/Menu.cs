@@ -6,10 +6,13 @@ public class Menu : Control
     private Button PlayBtn;
     private Button SettingsBtn;
     private Button CreditsBtn;
+    private Button EscapeCreditsBtn;
+    private VBoxContainer BtnBox;
 
     private Panel MenuPanel;
     private Level Level;
     private DifficultySettings Dset;
+    private Label CreditsLabel;
 
     private int boardHeight;
     private int boardWidth;
@@ -21,7 +24,11 @@ public class Menu : Control
         boardHeight = 5;
         boardWidth = 5;
         mineRatio = 0.2f;
-        
+
+        BtnBox = GetNode<VBoxContainer>("Panel/ButtonsBox");
+        EscapeCreditsBtn = GetNode<Button>("EscapeCredits");
+
+        CreditsLabel = GetNode<Label>("CreditsLabel");
         Dset = GetNode<DifficultySettings>("DifficultySettings");
         MenuPanel = GetNode<Panel>("Panel");
         Level = GetNode<Level>("Level");
@@ -33,6 +40,15 @@ public class Menu : Control
         SettingsBtn.Connect("pressed", this, "TogglePanels");
         Dset.Connect("BackToMainSignal", this, "TogglePanels");
         Dset.Connect("SettingsSignal", this, "UpdateBoardSize");
+        CreditsBtn.Connect("pressed", this, "ToggleCredits");
+        EscapeCreditsBtn.Connect("pressed", this, "ToggleCredits");
+    }
+
+    private void ToggleCredits()
+    {
+        CreditsLabel.Visible = !CreditsLabel.Visible;
+        BtnBox.Visible = !BtnBox.Visible;
+        EscapeCreditsBtn.Visible = !EscapeCreditsBtn.Visible;
     }
 
     private void UpdateBoardSize(int height, int width, float ratio)
@@ -45,6 +61,8 @@ public class Menu : Control
     private void PlayGame()
     {
         MenuPanel.Hide();
+        Level.Show();
+        Level.StartClock();
         Level.SetLevel(boardHeight, boardWidth, mineRatio);
     }
 

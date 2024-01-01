@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/Cell.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Art/crack_50x50.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Art/50x50.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Audio/crumble2.ogg" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/flag.ogg" type="AudioStream" id=5]
+
+[sub_resource type="Theme" id=9]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -43,7 +45,7 @@ animations = [ {
 } ]
 
 [node name="Cell" type="TextureButton"]
-mouse_default_cursor_shape = 2
+theme = SubResource( 9 )
 shortcut_in_tooltip = false
 texture_normal = SubResource( 1 )
 stretch_mode = 4
